@@ -3,6 +3,7 @@ from rapidsms.conf import settings
 
 DEFAULT = "default response"
 DUPE = "that was a dupe!"
+IGNORE = "duplicatable"
 
 class TestDupeChecker(TestScript):
     """
@@ -14,6 +15,7 @@ class TestDupeChecker(TestScript):
         super(TestDupeChecker, self).setUp()
         settings.DEFAULT_RESPONSE = DEFAULT
         settings.DUPECHECKER_RESPONSE = DUPE
+        settings.DUPECHECKER_IGNORE = IGNORE
         self.string_args = {"default": DEFAULT, 
                             "dupe": DUPE}
         
@@ -56,6 +58,20 @@ class TestDupeChecker(TestScript):
           8005551212 > fIrST DuPE mESsAGe
           8005551212 < %(dupe)s
           8005551212 > FIRST DUPE MESSAGE
+          8005551212 < %(dupe)s
+        """ % self.string_args)
+
+    def testIgnoreSetting(self):
+        self.assertInteraction("""
+          8005551212 > duplicatable message
+          8005551212 < %(default)s
+          8005551212 > duplicatable message
+          8005551212 < %(default)s
+          8005551212 > DUPLICATABLE message
+          8005551212 < %(default)s
+          8005551212 > not duplicatable message
+          8005551212 < %(default)s
+          8005551212 > not duplicatable message
           8005551212 < %(dupe)s
         """ % self.string_args)
 
