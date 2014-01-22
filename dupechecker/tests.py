@@ -1,4 +1,8 @@
-from threadless_router.tests.scripted import TestScript
+try:
+    from threadless_router.tests.scripted import TestScript
+except ImportError:
+    from rapidsms.tests.scripted import TestScript
+
 from rapidsms.conf import settings
 
 DEFAULT = "default response"
@@ -15,7 +19,7 @@ class TestDupeChecker(TestScript):
         super(TestDupeChecker, self).setUp()
         settings.DEFAULT_RESPONSE = DEFAULT
         settings.DUPECHECKER_RESPONSE = DUPE
-        settings.DUPECHECKER_IGNORE = IGNORE
+        settings.DUPECHECKER_IGNORE = [IGNORE]
         self.string_args = {"default": DEFAULT, 
                             "dupe": DUPE}
         
