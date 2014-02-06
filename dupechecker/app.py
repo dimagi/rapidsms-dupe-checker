@@ -31,7 +31,6 @@ class App(AppBase):
             if ignore.match(msg.raw_text):
                 return
 
-
         any_inclusions = any([include.match(msg.raw_text) for include in self._include_re])
         if self._include_re and not any_inclusions:
             return
@@ -47,5 +46,9 @@ class App(AppBase):
                 timedelta(seconds=settings.DUPECHECKER_TIME_WINDOW_SECONDS)
             msgs = msgs.filter(date__gt=cutoff)
         if msgs.count() > 1:
-            msg.error(settings.DUPECHECKER_RESPONSE)
+            if settings.DUPECHECKER_RESPONSE:
+                msg.error(settings.DUPECHECKER_RESPONSE)
             return True
+
+    def outgoing(self, msg):
+        pass

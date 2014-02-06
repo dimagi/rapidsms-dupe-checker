@@ -9,6 +9,7 @@ phase of subsequent apps.
 It relies on the following settings:
 
 * `DUPECHECKER_TIME_WINDOW_SECONDS`: How far back to look for duplicates (default: 2 days)
-* `DUPECHECKER_RESPONSE`: Default response to duplicate messages (default: "Thanks, that message has already been handled.")
+* `DUPECHECKER_RESPONSE`: Default response to duplicate messages (default: "Thanks, that message has already been handled.").
+  If not set no response will be sent for duplicate messages (they will be ignored).
 * `DUPECHECKER_IGNORE`: (blacklist) if specified, a list  of regexes which, if it matches the beginning of the message, will cause this app to still not flag it as a duplicate
 * `DUPECHECKER_INCLUDE`: (whitelist) if specified, a list  of regexes which, if it matches the beginning of the message, will cause this app to only flag it as a duplicate
